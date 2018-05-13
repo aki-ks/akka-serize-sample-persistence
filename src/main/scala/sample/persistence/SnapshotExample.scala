@@ -5,6 +5,8 @@ import akka.actor._
 import akka.persistence._
 
 object SnapshotExample extends App {
+  import AkkaPersistenceSamplePicklers._
+
   @serize("Snapshot.Message")
   case class Message(@id(0)evt: String)
 
