@@ -1,13 +1,17 @@
 package sample.persistence
 
 //#persistent-actor-example
+import serize._
 import akka.actor._
 import akka.persistence._
 
 case class Cmd(data: String)
-case class Evt(data: String)
 
-case class ExampleState(events: List[String] = Nil) {
+/** Events will be persisted and should therefore be serialized with serize */
+case class Evt(data: String) extends SerizeMessage
+
+/** The state must also be serialized */
+case class ExampleState(events: List[String] = Nil) extends SerizeMessage {
   def updated(evt: Evt): ExampleState = copy(evt.data :: events)
   def size: Int = events.length
   override def toString: String = events.reverse.toString
